@@ -1,0 +1,13 @@
+---
+###########################
+# Setup Kubernetes Add-Ons
+###########################
+
+- hosts: localhost
+  connection: local
+  roles:
+    - kubectl-config
+    - dashboard
+    - heapster
+    - external-dns
+    - autoscaler
