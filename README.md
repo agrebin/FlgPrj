@@ -25,7 +25,7 @@ This repository contains tooling for deploying Kubernetes cluster in Amazon AWS 
 
 ## Installing the cluster
 
-The cluster can be deployed from your local host (tested with MacOS and Linux) by following the steps described below. If you cannot install Ansible, kubectl or kops on your local PC or in case your local PC is running Windows, you can create a EC2 host in Aamzon AWS and run the installation from this host.
+The cluster can be deployed from your local host by following the steps described below. If you cannot install Ansible, kubectl or kops on your local PC or in case your local PC is running Windows, you can create a EC2 host in Aamzon AWS and run the installation from this host.
 
 ### Install Ansible
 
@@ -94,15 +94,6 @@ The main configuration of the cluster is in the variables in `group_vars/all/var
 | `node_volume_size` | Size of the node disk volume in GB. | `50` |
 | `node_autoscaler_min` | Minimum number of nodes (for the autoscaler). | `3` |
 | `node_autoscaler_max` | Maximum number of nodes (for the autoscaler). | `6` |
-
-Additionally to the Kubernetes cluster it self, an AWS Lambda function will be created which will run periodically to tag all resources creating by Kops and by Kubernetes. It will use following tags:
-* Creator
-* Owner
-* Application
-* CostCenter
-* Product
-* Confidentiality
-* Environment
 `
 
 ### Install ingress
