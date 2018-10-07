@@ -23,15 +23,6 @@ This repository contains tooling for deploying Kubernetes cluster in Amazon AWS 
 
 <!-- /TOC -->
 
-## Updates
-
-* *16.4.2018* Update to Kops 1.9 and Kubernetes 1.9, update addons, remove Storage Class (installed by Kops automatically) and Route53 addon (replaced by ExternalDNS addon)
-* *2.1.2018* Add support for public and private topologies
-* *9.12.2017* Update to Kops 1.8 and Kubernetes 1.8
-* *28.11.2017* Update addon versions
-* *14.10.2017* Update to Kops 1.7.1 which fixes [CVE-2017-14491](https://github.com/kubernetes/kops/blob/master/docs/advisories/cve_2017_14491.md)
-* *22.8.2017* Update to Kops 1.7 and Kubernetes 1.7
-
 ## Installing the cluster
 
 The cluster can be deployed from your local host (tested with MacOS and Linux) by following the steps described below. If you cannot install Ansible, kubectl or kops on your local PC or in case your local PC is running Windows, you can create a EC2 host in Aamzon AWS and run the installation from this host.
@@ -112,48 +103,15 @@ Additionally to the Kubernetes cluster it self, an AWS Lambda function will be c
 * Product
 * Confidentiality
 * Environment
+`
 
-The tags are configured in also in `group_vars/all/vars.yaml` using following variables:
-
-| Option | Explanation | Example |
-|--------|-------------|---------|
-| `tag_creator` | Value for the Creator tag | `MyName` |
-| `tag_owner` | Value for the Owner tag | `MyName` |
-| `tag_application` | Value for the Application tag | `MyApp` |
-| `tag_costcenter` | Value for the CostCenter tag | `1234` |
-| `tag_product` | Value for the Product tag | `MyProduct` |
-| `tag_confidentiality` | Value for the Confidentiality tag | `StrictlyConfidential` |
-| `tag_environment` | Value for the Environment tag | `Development` |
-
-Additionally to these tags, all resources without the `Name` tag will be named according to the cluster name (e.g. `kubernetes.my-cluster.com-resource`)
-
-### Install add-ons (optional)
-
-Currently, the supported add-ons are:
-* Kubernetes dashboard
-* Heapster for resource monitoring
-* External DNS
-* Cluster Autoscaler
-
-To install the add-ons run
-```
-ansible-playbook addons.yaml
-```
-
-### Install ingress (optional)
+### Install ingress
 
 Ingress can be used route inbound traffic from the outside of the Kubernetes cluster. It can be used for SSL termination, virtual hosts, load balancing etc. For more details about ingress, go to [Kubernetes website](https://kubernetes.io/docs/concepts/services-networking/ingress/).
 
 To install ingress controller based on Nginx, run
 ```
 ansible-playbook ingress.yaml
-```
-
-### Install the tagging lambda function (optional)
-
-The AWS Lambda function can be used for tagging of resources created by the Kubernetes installation. To install it run:
-```
-ansible-playbook install-lambda.yaml
 ```
 
 ## Updating the cluster
@@ -172,20 +130,3 @@ And run:
 ```
 ansible-playbook delete.yaml
 ```
-
-### Deleting the tagging lambda function
-
-If you installed the AWS Lambda for tagging, you can remove it using this command:
-```
-ansible-playbook uninstall-lambda.yaml
-```
-
-## Frequently Asked Questions
-
-### How to access Kuberntes Dashboard
-
-The Kubernetes Dashboard addon is by default not exposed to the internet. This is intentional for security reasons (no authentication / authorization) and to save costs for Amazon AWS ELB load balancer.
-
-You can access the dashboard easily fro any computer with installed and configured `kubectl`:
-1) From command line start `kubectl proxy`
-2) Go to your browser and open [http://127.0.0.1:8001/ui](http://127.0.0.1:8001/ui)
